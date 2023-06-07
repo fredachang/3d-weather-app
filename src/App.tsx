@@ -1,19 +1,21 @@
 import { useState } from "react";
 import "./App.css";
-import axios from "axios";
 import { WeatherTile } from "./components/WeatherTile";
-
-export interface WeatherData {
-  city: string;
-  temp: number;
-  humidity: number;
-}
-
-const apiKey = "4241a4d183231e8251b3d87d40684479";
+import {
+  CurrentWeatherData,
+  ForecastWeatherData,
+  getCoordinates,
+  getCurrentWeather,
+  getFiveDayForecast,
+} from "./Api";
 
 export function App() {
   const [city, setCity] = useState<string>("");
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [currentWeather, setCurrentWeather] =
+    useState<CurrentWeatherData | null>(null);
+
+  const [threeHourForecast, setThreeHourForecast] =
+    useState<ForecastWeatherData | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,29 +24,30 @@ export function App() {
     setCity(event.target.value);
   };
 
-  const handleClick = () => {
-    setLoading(true);
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-      )
-      .then((response) => {
-        console.log(response);
-        const weatherData: WeatherData = {
-          city: response.data.name,
-          temp: response.data.main.temp,
-          humidity: response.data.main.humidity,
-        };
-        setWeatherData(weatherData);
-        setLoading(false);
-        setError(null);
-      })
-      .catch((error) => {
-        console.log(error);
-        setWeatherData(null);
-        setError(`An Error has occured: ` + error.response.data.message + `.`);
-        setLoading(false);
-      });
+  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const coordinates = await getCoordinates(city);
+      const currentWeather = await getCurrentWeather(
+        coordinates.lat,
+        coordinates.lon
+      );
+
+      const threeHourForecast = await getFiveDayForecast(
+        coordinates.lat,
+        coordinates.lon
+      );
+      setCurrentWeather(currentWeather);
+      setThreeHourForecast(threeHourForecast);
+    } catch (error) {
+      setError("Error fetching weather data");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,15 +65,39 @@ export function App() {
         </button>
       </form>
       {error && <p>{error}</p>}
-      <div className="flex">
-        {weatherData && (
-          <WeatherTile
-            city={weatherData.city}
-            temp={weatherData.temp}
-            humidity={weatherData.humidity}
-          />
-        )}
-      </div>
+
+      <h2>Current Weather</h2>
+
+      <div>{currentWeather?.condition}</div>
+      <div>{currentWeather?.name}</div>
+      <div>{currentWeather?.country}</div>
+      <div>Temp: {currentWeather?.temp}</div>
+      <div>Min: {currentWeather?.tempMin}</div>
+      <div>Max: {currentWeather?.tempMax}</div>
+      <div>Humidity: {currentWeather?.humidity}</div>
+      <div>Sunrise: {currentWeather?.sunrise}</div>
+      <div>Sunset: {currentWeather?.sunset}</div>
+
+      <h2>3 Hour/5Day Forecast</h2>
+      <div>{threeHourForecast?.name}</div>
+      {threeHourForecast?.forecast.map((day: any) => (
+        <p key={day.dt}>
+          <span>{day.dateTimeText}:</span>
+          {day.temp}
+        </p>
+      ))}
     </div>
   );
 }
+
+//current weather api
+
+//https://openweathermap.org/current
+
+// Five day api
+
+// https://openweathermap.org/forecast5
+
+// icon index
+
+// https://openweathermap.org/weather-conditions
