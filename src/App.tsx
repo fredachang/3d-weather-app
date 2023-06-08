@@ -45,10 +45,9 @@ export function App() {
       );
       setCurrentWeather(currentWeather);
       setForecastWeather(forecastWeather);
-      // } catch (error) {
-      //   setError("Error fetching weather data");
     } finally {
       setLoading(false);
+      setCity("");
     }
   };
 
