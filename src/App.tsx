@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { WeatherTile } from "./components/WeatherTile";
+import { WeatherTile } from "./components/CurrentWeatherTile";
 import {
   CurrentWeatherData,
   ForecastWeatherData,
@@ -8,13 +8,15 @@ import {
   getCurrentWeather,
   getFiveDayForecast,
 } from "./Api";
+import { DailyForecastTile } from "./components/DailyForecastTile";
+// import { DailyForecastTile } from "./components/DailyForecastTile";
 
 export function App() {
   const [city, setCity] = useState<string>("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherData | null>(null);
 
-  const [threeHourForecast, setThreeHourForecast] =
+  const [forecastWeather, setForecastWeather] =
     useState<ForecastWeatherData | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -37,14 +39,14 @@ export function App() {
         coordinates.lon
       );
 
-      const threeHourForecast = await getFiveDayForecast(
+      const forecastWeather = await getFiveDayForecast(
         coordinates.lat,
         coordinates.lon
       );
       setCurrentWeather(currentWeather);
-      setThreeHourForecast(threeHourForecast);
-    } catch (error) {
-      setError("Error fetching weather data");
+      setForecastWeather(forecastWeather);
+      // } catch (error) {
+      //   setError("Error fetching weather data");
     } finally {
       setLoading(false);
     }
@@ -68,24 +70,10 @@ export function App() {
 
       <h2>Current Weather</h2>
 
-      <div>{currentWeather?.condition}</div>
-      <div>{currentWeather?.name}</div>
-      <div>{currentWeather?.country}</div>
-      <div>Temp: {currentWeather?.temp}</div>
-      <div>Min: {currentWeather?.tempMin}</div>
-      <div>Max: {currentWeather?.tempMax}</div>
-      <div>Humidity: {currentWeather?.humidity}</div>
-      <div>Sunrise: {currentWeather?.sunrise}</div>
-      <div>Sunset: {currentWeather?.sunset}</div>
+      <WeatherTile currentWeather={currentWeather} />
 
       <h2>3 Hour/5Day Forecast</h2>
-      <div>{threeHourForecast?.name}</div>
-      {threeHourForecast?.forecast.map((day: any) => (
-        <p key={day.dt}>
-          <span>{day.dateTimeText}:</span>
-          {day.temp}
-        </p>
-      ))}
+      <DailyForecastTile forecastWeather={forecastWeather} />
     </div>
   );
 }

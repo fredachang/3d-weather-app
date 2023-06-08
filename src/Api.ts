@@ -11,6 +11,7 @@ export interface Coordinates {
 }
 
 export interface CurrentWeatherData {
+  date: string;
   name: string;
   country: string;
   condition: string;
@@ -24,43 +25,79 @@ export interface CurrentWeatherData {
   sunset: string;
 }
 
-export interface ThreeHourForecast {
+export interface ForecastByThreeHour {
   dt: number;
   dateTimeText: string;
   condition: string;
   description: string;
   temp: number;
-  tempMin: number;
-  tempMax: number;
-  humidity: number;
-  windSpeed: number;
 }
+
+export interface ForecastByDate {
+  date: string;
+  weather: TempEveryThreeHours[];
+}
+
+type TempEveryThreeHours = {
+  dt: number;
+  time: string;
+  temp: number;
+  condition: string;
+  description: string;
+};
 
 export interface ForecastWeatherData {
   name: string;
   country: string;
-  forecast: object[];
+  forecast: ForecastByDate[];
 }
 
-export const convertTime = (timecode: number) => {
+export const convertToHourMinute = (timecode: number) => {
   const date = new Date(timecode * 1000);
   const time = format(date, "HH:mm");
   return time;
 };
 
-const toThreeHourForecast = (day: any): ThreeHourForecast => {
+export const convertToDate = (timecode: number) => {
+  const date = new Date(timecode * 1000);
+  const time = format(date, "yyyy-MM-dd");
+  return time;
+};
+
+const toThreeHourForecast = (timeslot: any): ForecastByThreeHour => {
   return {
-    dt: day.dt,
-    condition: day.weather[0].main,
-    dateTimeText: day.dt_txt,
-    description: day.weather[0].description,
-    temp: day.main.temp,
-    tempMin: day.main.temp_min,
-    tempMax: day.main.temp_max,
-    humidity: day.main.humidity,
-    windSpeed: day.wind.speed,
+    dt: timeslot.dt,
+    condition: timeslot.weather[0].main,
+    dateTimeText: timeslot.dt_txt,
+    description: timeslot.weather[0].description,
+    temp: timeslot.main.temp,
   };
 };
+
+const toForecastByDate = (data: ForecastByThreeHour[]): ForecastByDate[] =>
+  Object.entries(
+    data.reduce((acc: { [date: string]: TempEveryThreeHours[] }, obj) => {
+      const datetime = obj.dateTimeText.split(" ");
+      const date = datetime[0];
+      const time = datetime[1].split(":")[0]; // Extract the hour part from 'dateTimeText'
+
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+
+      acc[date].push({
+        time,
+        dt: obj.dt,
+        temp: obj.temp,
+        condition: obj.condition,
+        description: obj.description,
+      });
+      return acc;
+    }, {})
+  ).map(([date, weather]) => ({
+    date,
+    weather: weather as TempEveryThreeHours[],
+  }));
 
 export const getCoordinates = async (city: string): Promise<Coordinates> => {
   const response = await axios.get(
@@ -83,6 +120,7 @@ export const getCurrentWeather = async (
   );
   const currentWeather: CurrentWeatherData = {
     name: response.data.name,
+    date: convertToDate(response.data.dt),
     country: response.data.sys.country,
     condition: response.data.weather[0].main,
     description: response.data.weather[0].description,
@@ -91,8 +129,8 @@ export const getCurrentWeather = async (
     tempMax: response.data.main.temp_max,
     humidity: response.data.main.humidity,
     windSpeed: response.data.wind.speed,
-    sunrise: convertTime(response.data.sys.sunrise),
-    sunset: convertTime(response.data.sys.sunset),
+    sunrise: convertToHourMinute(response.data.sys.sunrise),
+    sunset: convertToHourMinute(response.data.sys.sunset),
   };
   return currentWeather;
 };
@@ -105,10 +143,16 @@ export const getFiveDayForecast = async (
     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKeyOne}&units=metric`
   );
 
-  const threehourForecast: ForecastWeatherData = {
+  const threehourForecast: ForecastByThreeHour[] = response.data.list.map(
+    (timeslot: any) => toThreeHourForecast(timeslot)
+  );
+
+  const dailyForecast: ForecastByDate[] = toForecastByDate(threehourForecast);
+
+  const fiveDayForecast: ForecastWeatherData = {
     name: response.data.city.name,
     country: response.data.country,
-    forecast: response.data.list.map((day: any) => toThreeHourForecast(day)),
+    forecast: dailyForecast,
   };
-  return threehourForecast;
+  return fiveDayForecast;
 };

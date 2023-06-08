@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Jgs-Regular";
+  src: local("Jgs"), url("./fonts/jgs_Font.ttf") format("truetype");
+}
+
+* {
+  font-family: "Jgs-Regular";
+}
+
+@font-face {
+  font-family: "Jgs-Bit";
+  src: local("Jgs"), url("./fonts/jgs9.ttf") format("truetype");
+}
