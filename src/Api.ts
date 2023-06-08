@@ -1,5 +1,5 @@
 import axios from "axios";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export const apiKeyOne = "50a87e24382939f7af2e8bb8a452c9ee";
 
@@ -77,9 +77,9 @@ const toThreeHourForecast = (timeslot: any): ForecastByThreeHour => {
 const toForecastByDate = (data: ForecastByThreeHour[]): ForecastByDate[] =>
   Object.entries(
     data.reduce((acc: { [date: string]: TempEveryThreeHours[] }, obj) => {
-      const datetime = obj.dateTimeText.split(" ");
-      const date = datetime[0];
-      const time = datetime[1].split(":")[0]; // Extract the hour part from 'dateTimeText'
+      const datetime = parseISO(obj.dateTimeText);
+      const date = format(datetime, "yyyy-MM-dd");
+      const time = format(datetime, "HH:mm");
 
       if (!acc[date]) {
         acc[date] = [];

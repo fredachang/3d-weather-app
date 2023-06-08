@@ -8,27 +8,25 @@ interface Props {
 export function DailyForecastTile(props: Props) {
   const { forecastWeather } = props;
   return (
-    <div className="card">
-      <h3>{forecastWeather?.name}</h3>
-      <h3>
-        {forecastWeather?.forecast.map((day) => {
-          return (
-            <div key={day.date}>
-              <h3>{day.date}</h3>
-              <h3>
-                {day.weather.map((entry) => {
-                  return (
-                    <div key={entry.dt}>
-                      <h3>Time: {entry.time}</h3>
-                      <h3> Temp: {entry.temp} degrees</h3>
-                    </div>
-                  );
-                })}
-              </h3>
-            </div>
-          );
-        })}
-      </h3>
+    <div className="forecast-container">
+      {forecastWeather?.forecast.map((day) => {
+        return (
+          <div className="daily-forecast" key={day.date}>
+            <h2>{day.date}</h2>
+            <h3>
+              {day.weather.map((entry) => {
+                return (
+                  <div key={entry.dt}>
+                    <h3>
+                      {entry.time} {entry.temp}&deg;
+                    </h3>
+                  </div>
+                );
+              })}
+            </h3>
+          </div>
+        );
+      })}
     </div>
   );
 }

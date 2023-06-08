@@ -68,12 +68,16 @@ export function App() {
       </form>
       {error && <p>{error}</p>}
 
-      <h2>Current Weather</h2>
+      <section className="section-current">
+        <h1>Current Weather</h1>
+        <WeatherTile currentWeather={currentWeather} />
+      </section>
 
-      <WeatherTile currentWeather={currentWeather} />
-
-      <h2>3 Hour/5Day Forecast</h2>
-      <DailyForecastTile forecastWeather={forecastWeather} />
+      <section className="section-forecast">
+        <h1>Forecast</h1>
+        <p>Every 3 hours over the next five days</p>
+        <DailyForecastTile forecastWeather={forecastWeather} />
+      </section>
     </div>
   );
 }
