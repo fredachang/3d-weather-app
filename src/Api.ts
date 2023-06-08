@@ -101,7 +101,7 @@ const toForecastByDate = (data: ForecastByThreeHour[]): ForecastByDate[] =>
 
 export const getCoordinates = async (city: string): Promise<Coordinates> => {
   const response = await axios.get(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKeyOne}`
+    `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${apiKeyOne}`
   );
 
   const coordinates: Coordinates = {
