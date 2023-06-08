@@ -1,0 +1,109 @@
+@font-face {
+  font-family: "Jgs-Regular";
+  src: local("Jgs"), url("./fonts/jgs_Font.ttf") format("truetype");
+}
+
+* {
+  font-family: "Jgs-Regular";
+}
+
+@font-face {
+  font-family: "Jgs-Bit";
+  src: local("Jgs"), url("./fonts/jgs9.ttf") format("truetype");
+}
+
+h1 {
+  font-size: 4rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+.section-current {
+  margin-top: 20px;
+}
+
+.section-forecast {
+  margin-top: 20px;
+}
+
+.forecast-container {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.daily-forecast {
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 25%;
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+.current-weather-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+}
+
+.col-1 {
+  width: 30%;
+  height: 90%;
+  border-right: 4px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.col-2 {
+  padding-right: 3%;
+  width: 40%;
+  height: 90%;
+  border-right: 4px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.col-2 .row {
+  padding: 0 5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.col-2 .row span {
+  vertical-align: super;
+  font-size: 1.5rem;
+}
+
+.col-3 {
+  width: 25%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.col-3 span {
+  vertical-align: super;
+  font-size: 1.5rem;
+}
