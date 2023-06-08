@@ -12,6 +12,10 @@
   src: local("Jgs"), url("./fonts/jgs9.ttf") format("truetype");
 }
 
+html {
+  padding: 0.5% 1%;
+}
+
 h1 {
   font-size: 4rem;
   margin-top: 0;
