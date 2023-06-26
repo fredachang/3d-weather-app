@@ -9,7 +9,8 @@ import {
   getFiveDayForecast,
 } from "./Api";
 import { DailyForecastTile } from "./components/DailyForecastTile";
-// import { DailyForecastTile } from "./components/DailyForecastTile";
+import { Backdrop } from "@react-three/drei";
+import { BackgroundEnv } from "./components/BackgroundEnv";
 
 export function App() {
   const [city, setCity] = useState<string>("");
@@ -52,31 +53,37 @@ export function App() {
   };
 
   return (
-    <div>
-      <h1>Weather App</h1>
-      <form>
-        <input
-          onChange={handleChange}
-          type="text"
-          value={city}
-          placeholder="Enter City"
-        />
-        <button onClick={handleClick} disabled={loading}>
-          {loading ? "Loading..." : "Search"}
-        </button>
-      </form>
-      {error && <p>{error}</p>}
-
-      <section className="section-current">
-        <h1>Current Weather</h1>
-        <WeatherTile currentWeather={currentWeather} />
+    <div className="flex">
+      <section className="w-full h-full flex fixed z-0">
+        <BackgroundEnv />
       </section>
 
-      <section className="section-forecast">
-        <h1>Forecast</h1>
-        <p>Every 3 hours over the next five days</p>
-        <DailyForecastTile forecastWeather={forecastWeather} />
-      </section>
+      <main className="z-10">
+        <h1>Weather App</h1>
+        <form>
+          <input
+            onChange={handleChange}
+            type="text"
+            value={city}
+            placeholder="Enter City"
+          />
+          <button onClick={handleClick} disabled={loading}>
+            {loading ? "Loading..." : "Search"}
+          </button>
+        </form>
+        {error && <p>{error}</p>}
+
+        <section className="section-current">
+          <h1>Current Weather</h1>
+          <WeatherTile currentWeather={currentWeather} />
+        </section>
+
+        <section className="section-forecast">
+          <h1>Forecast</h1>
+          <p>Every 3 hours over the next five days</p>
+          <DailyForecastTile forecastWeather={forecastWeather} />
+        </section>
+      </main>
     </div>
   );
 }
