@@ -1,12 +1,12 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { Doors } from "./Doors";
-import { useRef } from "react";
-import { CottonFlower, WeepingWillow } from "./WeepingWillow";
-import { Cactus } from "./Cactus";
-import { Calathea } from "./Calathea";
+import { Door } from "./Door";
+import { ReactNode, useRef } from "react";
+import { Poster } from "./Poster";
+import { CurrentWeatherData } from "../Api";
+import { CalatheaTest } from "./CalatheaTest";
+import { DrapePlant } from "./DrapePlant";
 
 const scaleArray = (scale: number) => [scale, scale, scale];
 
@@ -22,23 +22,30 @@ function getWeatherHDR(currentWeather?: string) {
       return "gloomy.hdr";
   }
 }
+function Rig({ children }: { children: ReactNode }) {
+  const ref = useRef<THREE.Group>(null);
 
-function Rig({ children }) {
-  const ref = useRef();
   useFrame((state) => {
-    ref.current.rotation.y = THREE.MathUtils.lerp(
-      ref.current.rotation.y,
-      (state.mouse.x * Math.PI) / 60,
-      0.03
-    );
-    //20 controls how much it sways, 0.05 is the delay/speed
-    ref.current.rotation.x = THREE.MathUtils.lerp(
-      ref.current.rotation.x,
-      (state.mouse.y * Math.PI) / 60,
-      0.03
-    );
+    if (ref.current) {
+      ref.current.rotation.y = THREE.MathUtils.lerp(
+        ref.current.rotation.y,
+        (state.mouse.x * Math.PI) / 60,
+        0.03
+      );
+
+      ref.current.rotation.x = THREE.MathUtils.lerp(
+        ref.current.rotation.x,
+        (state.mouse.y * Math.PI) / 60,
+        0.03
+      );
+    }
   });
+
   return <group ref={ref}>{children}</group>;
+}
+
+interface Props {
+  currentWeather: CurrentWeatherData | null;
 }
 
 export function BackgroundEnv(props: Props) {
@@ -54,12 +61,26 @@ export function BackgroundEnv(props: Props) {
       <axesHelper args={[5]} />
       {/* <OrbitControls enableZoom={false} /> */}
       <Rig>
-        <Doors scale={1.8} position={[-2, -0.2, -0.4]} />
-        <CottonFlower
-          staticScale={scaleArray(5.5)}
-          hoverScale={scaleArray(6)}
+        <Door scale={1.8} position={[-2, -0.2, -0.4]} />
+
+        <DrapePlant
+          staticScale={scaleArray(3)}
+          hoverScale={scaleArray(3 * 1.1)}
+          initialPosition={[1, 4, 0]}
         />
-        <Calathea staticScale={scaleArray(5)} hoverScale={scaleArray(6)} />
+
+        <CalatheaTest
+          staticScale={scaleArray(3)}
+          hoverScale={scaleArray(3 * 1.1)}
+          initialPosition={[1, -4, 0]}
+        />
+
+        <Poster
+          currentWeather={currentWeather}
+          staticScale={scaleArray(1)}
+          hoverScale={scaleArray(1 * 1.1)}
+          initialPosition={[-2, 1, 0]}
+        />
       </Rig>
     </Canvas>
   );

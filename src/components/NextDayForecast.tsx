@@ -10,8 +10,6 @@ export function NextDayForecast(props: Props) {
 
   const nextDayForecast = forecastWeather?.forecast[1];
 
-  console.log(nextDayForecast);
-
   return (
     <div className="flex justify-between">
       {nextDayForecast?.weather.map((entry) => (
