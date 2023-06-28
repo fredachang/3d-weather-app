@@ -9,7 +9,6 @@ import {
 } from "./Api";
 import { BackgroundEnv } from "./components/BackgroundEnv";
 import { NextDayForecast } from "./components/NextDayForecast";
-import { ThreeLogoCanvas } from "./components/ThreeLogoCanvas";
 
 export function App() {
   const [city, setCity] = useState<string>("");
@@ -57,9 +56,9 @@ export function App() {
         <BackgroundEnv currentWeather={currentWeather} />
       </div>
 
-      <div id="balloon-logo" className="w-20 h-20 flex absolute t-0 l-0 z-50">
+      {/* <div id="balloon-logo" className="w-20 h-20 flex absolute t-0 l-0 z-50">
         <ThreeLogoCanvas />
-      </div>
+      </div> */}
 
       <main className="w-full z-10">
         <section
