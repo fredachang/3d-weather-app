@@ -12,28 +12,35 @@
   src: local("Jgs"), url("./fonts/jgs9.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Goozette";
+  src: local("Goozette"), url("/Fonts/Goozette.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Notorious";
+  src: local("Notorious"),
+    url("/Fonts/super_notorious_v2.otf") format("truetype");
+}
+
 html {
-  padding: 0.5% 1%;
+  padding: 0;
+  margin: 0;
 }
 
 h1 {
-  font-size: 4rem;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  font-family: "Goozette";
+  font-size: 1.2rem;
 }
 
 h2 {
-  font-size: 3rem;
+  font-size: 0.8rem;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-h3 {
-  font-size: 2rem;
-}
-
 p {
-  font-size: 1.5rem;
+  font-size: 0.6rem;
 }
 
 .section-current {
