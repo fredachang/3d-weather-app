@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Loader, OrbitControls } from "@react-three/drei";
+import { Environment, Loader } from "@react-three/drei";
 import * as THREE from "three";
 import { ReactNode, Suspense, useRef } from "react";
 import { Poster } from "./RoomObjects/Poster";
