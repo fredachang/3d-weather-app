@@ -2,11 +2,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Loader, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ReactNode, Suspense, useRef } from "react";
-import { Poster } from "./Poster";
+import { Poster } from "./RoomObjects/Poster";
 import { CurrentWeatherData } from "../Api";
-import { CalatheaTest } from "./CalatheaTest";
-import { DrapePlant } from "./DrapePlant";
-import { Room } from "./Room";
+import { DrapePlant } from "./RoomObjects/DrapePlant";
+import { Room } from "./RoomObjects/Room";
+import { Willow } from "./RoomObjects/Willow";
+import { Calathea } from "./RoomObjects/Calathea";
 const scaleArray = (scale: number) => [scale, scale, scale];
 
 const loaderStyles = {
@@ -87,7 +88,7 @@ export function BackgroundEnv(props: Props) {
         />
         <axesHelper args={[5]} />
 
-        {/* <ambientLight color={lightColours.warmYellow} intensity={0.3} /> */}
+        <ambientLight color={lightColours.warmYellow} intensity={0.3} />
         <hemisphereLight
           color={lightColours.lightBlue}
           groundColor={lightColours.warmYellow}
@@ -99,12 +100,17 @@ export function BackgroundEnv(props: Props) {
         <Suspense fallback={null}>
           <Rig>
             <Room scale={2} position={[-0.5, 0.2, -0.4]} />
+            <Willow
+              staticScale={scaleArray(4)}
+              hoverScale={scaleArray(4.5 * 1.1)}
+              initialPosition={[-2, -4, 0]}
+            />
             <DrapePlant
               staticScale={scaleArray(3)}
               hoverScale={scaleArray(3 * 1.1)}
               initialPosition={[1, 4, 0]}
             />
-            <CalatheaTest
+            <Calathea
               staticScale={scaleArray(3)}
               hoverScale={scaleArray(3 * 1.1)}
               initialPosition={[1, -4, 0]}
