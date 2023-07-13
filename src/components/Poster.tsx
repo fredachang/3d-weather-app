@@ -5,7 +5,8 @@ import * as THREE from "three";
 import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import notorious from "../assets/Super_Notorious_Regular.json";
+import jgs7 from "../assets/jgs7_Regular.json";
+import { useLocalStorage } from "react-use";
 
 extend({ TextGeometry });
 
@@ -20,9 +21,13 @@ const posterColour = new THREE.Color("rgb(255, 0, 0)");
 
 export function Poster(props: any) {
   const { staticScale, hoverScale, currentWeather, initialPosition } = props;
+  const [position, setPosition] = useLocalStorage(
+    "posterPosition",
+    initialPosition
+  );
   const { size, viewport } = useThree();
 
-  const font = new FontLoader().parse(notorious);
+  const font = new FontLoader().parse(jgs7);
 
   const aspect = size.width / viewport.width;
 
@@ -34,22 +39,33 @@ export function Poster(props: any) {
   }));
 
   const bind = useGesture({
-    onDrag: ({ offset: [x, y] }) =>
-      set({
-        position: [
-          initialPosition[0] + x / aspect,
-          initialPosition[1] - y / aspect,
-          initialPosition[2],
-        ],
-      }),
+    onDrag: ({ offset: [x, y] }) => {
+      const newPosition = [
+        initialPosition[0] + x / aspect,
+        initialPosition[1] - y / aspect,
+        initialPosition[2],
+      ];
+      set({ position: newPosition });
+      setPosition(newPosition);
+    },
     onHover: ({ hovering }) =>
       set({ scale: hovering ? hoverScale : staticScale }),
   });
 
   const cityName = currentWeather?.name;
 
+  const currentTemp = currentWeather?.temp;
+
+  const tempString = `${currentTemp || ""}`;
+
   return (
-    <animated.group {...props} {...spring} {...bind()} dispose={null}>
+    <animated.group
+      {...props}
+      {...spring}
+      {...bind()}
+      dispose={null}
+      position={position}
+    >
       <mesh position={[-0.7, 0.5, 0.2]}>
         <textGeometry
           args={["Weather Report", { font, size: 0.2, height: 0 }]}
@@ -62,9 +78,16 @@ export function Poster(props: any) {
         <meshLambertMaterial attach="material" color={fontColour} />
       </mesh>
 
+      <mesh position={[-0.7, -0.5, 0.2]}>
+        <textGeometry
+          args={[tempString || "", { font, size: 0.3, height: 0 }]}
+        />
+        <meshLambertMaterial attach="material" color={fontColour} />
+      </mesh>
+
       <mesh>
-        <planeBufferGeometry args={[2, 3]} />
-        <meshStandardMaterial color={posterColour} />
+        <planeGeometry args={[2, 3]} />
+        <meshBasicMaterial color={posterColour} />
       </mesh>
     </animated.group>
   );

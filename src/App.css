@@ -18,9 +18,8 @@
 }
 
 @font-face {
-  font-family: "Notorious";
-  src: local("Notorious"),
-    url("/Fonts/super_notorious_v2.otf") format("truetype");
+  font-family: "JGS-7";
+  src: local("JGS"), url("/Fonts/JGS-7.ttf") format("truetype");
 }
 
 html {

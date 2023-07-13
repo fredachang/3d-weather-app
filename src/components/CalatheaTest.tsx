@@ -9,6 +9,8 @@ import { GLTF } from "three-stdlib";
 import { useThree } from "@react-three/fiber";
 import { animated, useSpring } from "@react-spring/three";
 import { useGesture } from "@use-gesture/react";
+import { useLocalStorage } from "react-use";
+import { useEffect } from "react";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -32,32 +34,57 @@ export function CalatheaTest(props: any) {
 
   const { staticScale, hoverScale, initialPosition } = props;
 
+  const [position1, setPosition1] = useLocalStorage<number[]>(
+    "calatheaPos1",
+    initialPosition
+  );
+
+  const [position2, setPosition2] = useLocalStorage<number[]>("calatheaPos2");
+
+  useEffect(() => {
+    const position1FromStorage = JSON.parse(
+      localStorage.getItem("calatheaPos1") ?? ""
+    );
+    setPosition2(
+      position1FromStorage === "" ? initialPosition : position1FromStorage
+    );
+  }, []);
+
   const { size, viewport } = useThree();
 
   const aspect = size.width / viewport.width;
 
   const [spring, set] = useSpring(() => ({
     scale: staticScale,
-    position: initialPosition,
+    position: position1,
     rotation: [0, 0, 0],
     config: { friction: 10 },
   }));
 
   const bind = useGesture({
-    onDrag: ({ offset: [x, y] }) =>
-      set({
-        position: [
-          initialPosition[0] + x / aspect,
-          initialPosition[1] - y / aspect,
-          initialPosition[2],
-        ],
-      }),
+    onDrag: ({ offset: [x, y] }) => {
+      const defaultPosition = position2 ? position2 : [0, 0, 0];
+      const newPosition = [
+        defaultPosition[0] + x / aspect,
+        defaultPosition[1] - y / aspect,
+        defaultPosition[2],
+      ];
+
+      set({ position: newPosition });
+      setPosition1(newPosition);
+    },
     onHover: ({ hovering }) =>
       set({ scale: hovering ? hoverScale : staticScale }),
   });
 
   return (
-    <animated.group {...props} {...spring} {...bind()} dispose={null}>
+    <animated.group
+      {...props}
+      {...spring}
+      {...bind()}
+      dispose={null}
+      position={position1}
+    >
       <mesh
         castShadow
         receiveShadow

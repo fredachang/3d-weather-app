@@ -1,25 +1,21 @@
 import { useState } from "react";
 import "./App.css";
-import {
-  CurrentWeatherData,
-  ForecastWeatherData,
-  getCoordinates,
-  getCurrentWeather,
-  getFiveDayForecast,
-} from "./Api";
+import { getCurrentWeather, getFiveDayForecast } from "./ApiByCityName";
 import { BackgroundEnv } from "./components/BackgroundEnv";
 import { NextDayForecast } from "./components/NextDayForecast";
+import { Loading } from "./components/Loading";
+import React from "react";
+import { CurrentWeatherData, ForecastWeatherData } from "./Api";
+import { ErrorMessage } from "./components/ErrorMessage";
 
 export function App() {
   const [city, setCity] = useState<string>("");
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherData | null>(null);
-
   const [forecastWeather, setForecastWeather] =
     useState<ForecastWeatherData | null>(null);
-
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
@@ -30,35 +26,74 @@ export function App() {
 
     try {
       setLoading(true);
-      setError(null);
+      setErrorMessage(null);
 
-      const coordinates = await getCoordinates(city);
-      const currentWeather = await getCurrentWeather(
-        coordinates.lat,
-        coordinates.lon
-      );
+      const currentWeather = await getCurrentWeather(city);
 
-      const forecastWeather = await getFiveDayForecast(
-        coordinates.lat,
-        coordinates.lon
-      );
+      const forecastWeather = await getFiveDayForecast(city);
       setCurrentWeather(currentWeather);
       setForecastWeather(forecastWeather);
+    } catch (error: any) {
+      if (error.response.status === 404) {
+        setErrorMessage("City is Not Found. Please check spelling.");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
     } finally {
       setLoading(false);
       setCity("");
     }
   };
 
+  //old Lat and Lon call
+
+  // const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     setLoading(true);
+  //     setError(null);
+
+  //     const coordinates = await getCoordinates(city);
+  //     const currentWeather = await getCurrentWeather(
+  //       coordinates.lat,
+  //       coordinates.lon
+  //     );
+
+  //     const forecastWeather = await getFiveDayForecast(
+  //       coordinates.lat,
+  //       coordinates.lon
+  //     );
+  //     setCurrentWeather(currentWeather);
+  //     setForecastWeather(forecastWeather);
+  //   } finally {
+  //     setLoading(false);
+  //     setCity("");
+  //   }
+  // };
+
+  const handleCloseError = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <div className="flex">
-      <div className="w-full h-full flex fixed z-0">
+      <div className="w-full h-full flex justify-center items-center fixed z-0">
+        {loading && <Loading loadingText="loading" />}
         <BackgroundEnv currentWeather={currentWeather} />
       </div>
 
-      {/* <div id="balloon-logo" className="w-20 h-20 flex absolute t-0 l-0 z-50">
-        <ThreeLogoCanvas />
-      </div> */}
+      {errorMessage && (
+        <div
+          className="flex w-full h-full absolute justify-center items-center"
+          onClick={handleCloseError}
+        >
+          <ErrorMessage errorText={errorMessage} />
+        </div>
+      )}
 
       <main className="w-full z-10">
         <section
@@ -81,8 +116,8 @@ export function App() {
           </div>
 
           <div id="search-result" className="flex">
-            {error && <p>{error}</p>}
             <h1 className="mr-5">{currentWeather?.name}</h1>
+            <h1 className="mr-5">{currentWeather?.temp}</h1>
             <h1 className="mr-5">{currentWeather?.country}</h1>
             <h1 className="mr-5">{currentWeather?.date}</h1>
           </div>

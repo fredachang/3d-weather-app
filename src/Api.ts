@@ -38,7 +38,7 @@ export interface ForecastByDate {
   weather: TempEveryThreeHours[];
 }
 
-type TempEveryThreeHours = {
+export type TempEveryThreeHours = {
   dt: number;
   time: string;
   temp: number;
@@ -64,7 +64,7 @@ export const convertToDate = (timecode: number) => {
   return time;
 };
 
-const toThreeHourForecast = (timeslot: any): ForecastByThreeHour => {
+export const toThreeHourForecast = (timeslot: any): ForecastByThreeHour => {
   return {
     dt: timeslot.dt,
     condition: timeslot.weather[0].main,
@@ -74,7 +74,9 @@ const toThreeHourForecast = (timeslot: any): ForecastByThreeHour => {
   };
 };
 
-const toForecastByDate = (data: ForecastByThreeHour[]): ForecastByDate[] =>
+export const toForecastByDate = (
+  data: ForecastByThreeHour[]
+): ForecastByDate[] =>
   Object.entries(
     data.reduce((acc: { [date: string]: TempEveryThreeHours[] }, obj) => {
       const datetime = parseISO(obj.dateTimeText);
@@ -108,6 +110,9 @@ export const getCoordinates = async (city: string): Promise<Coordinates> => {
     lat: response.data[0].lat,
     lon: response.data[0].lon,
   };
+
+  console.log(coordinates);
+
   return coordinates;
 };
 
@@ -118,6 +123,9 @@ export const getCurrentWeather = async (
   const response = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyOne}&units=metric`
   );
+
+  console.log(response.data);
+
   const currentWeather: CurrentWeatherData = {
     name: response.data.name,
     date: convertToDate(response.data.dt),
