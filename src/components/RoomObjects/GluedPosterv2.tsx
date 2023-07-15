@@ -106,6 +106,7 @@ export function GluedPoster(props: any) {
   const cityName = currentWeather?.name;
 
   const currentTemp = currentWeather?.temp;
+  const currentCondition = currentWeather?.condition;
   const minTemp = currentWeather?.tempMin;
   const maxTemp = currentWeather?.tempMax;
 
@@ -140,24 +141,31 @@ export function GluedPoster(props: any) {
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
-      <mesh position={[-0.2, 0.25, 0.2]}>
+      <mesh position={[-0.2, 0.3, 0.2]}>
+        <textGeometry
+          args={[currentCondition || "", { font, size: 0.07, height: 0 }]}
+        />
+        <meshBasicMaterial attach="material" color={fontColour} />
+      </mesh>
+
+      <mesh position={[-0.2, 0.15, 0.2]}>
         <textGeometry
           args={[tempString || "", { font, size: 0.07, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
-      <mesh position={[0.25, 0.15, 0.2]}>
+      <mesh position={[0.25, 0.05, 0.2]}>
         <textGeometry args={[degreeString, { font, size: 0.2, height: 0 }]} />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
-      <mesh position={[-0.2, 0.1, 0.2]}>
+      <mesh position={[-0.2, 0.05, 0.2]}>
         <textGeometry args={[minTempString, { font, size: 0.07, height: 0 }]} />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
-      <mesh position={[0.25, 0, 0.2]}>
+      <mesh position={[0.25, -0.05, 0.2]}>
         <textGeometry args={[degreeString, { font, size: 0.2, height: 0 }]} />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>

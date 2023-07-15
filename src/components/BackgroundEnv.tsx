@@ -9,6 +9,7 @@ import { PaperPotFlower } from "./RoomObjects/PaperPotFlower";
 import { GluedPoster } from "./RoomObjects/GluedPosterv2";
 import { PosterForecast } from "./RoomObjects/PosterForecast";
 import { RoomWithIvy } from "./RoomObjects/RoomWithIvy";
+import { FloatingWeatherBalloon } from "./RoomObjects/Weather_balloon";
 const scaleArray = (scale: number) => [scale, scale, scale];
 
 const loaderStyles = {
@@ -32,16 +33,45 @@ const loaderStyles = {
   },
 };
 
-function getWeatherHDR(currentWeather?: string) {
-  switch (currentWeather) {
-    case "Clear":
-      return "clear.hdr";
-    case "Clouds":
-      return "cloudy.hdr";
-    case "snow":
-      return "snow.hdr";
-    default:
-      return "gloomy.hdr";
+const getCurrentHour = () => {
+  const date = new Date();
+  const currentHour = date.getHours();
+  return currentHour;
+};
+
+function getWeatherHDR(condition?: string) {
+  const currentHour = getCurrentHour();
+
+  if (
+    currentHour >= 17 &&
+    currentHour <= 19 &&
+    (condition === "Clear" || condition === "Clouds")
+  ) {
+    return "./public/HDR/sunset_land.hdr";
+  }
+
+  if (currentHour > 19 || currentHour < 6) {
+    return "./public/HDR/night_land.hdr";
+  }
+
+  if (currentHour > 6 && condition === "Clear") {
+    return "./public/HDR/clear.hdr";
+  }
+
+  if (
+    currentHour > 6 &&
+    (condition === "Clouds" ||
+      condition === "Rain" ||
+      condition === "Drizzle" ||
+      condition === "Thunderstorm")
+  ) {
+    return "./public/HDR/gloomy.hdr";
+  }
+
+  if (currentHour > 6 && condition === "Snow") {
+    return "./public/HDR/snow.hdr";
+  } else {
+    return "./public/HDR/default.hdr";
   }
 }
 
@@ -87,6 +117,8 @@ export function BackgroundEnv(props: Props) {
   return (
     <>
       <Canvas>
+        <FloatingWeatherBalloon scale={200} position={[0, 3, -5]} />
+
         <Environment
           files={getWeatherHDR(currentWeather?.condition)}
           background
@@ -113,9 +145,9 @@ export function BackgroundEnv(props: Props) {
             />
 
             <PaperPotFlower
-              staticScale={scaleArray(4)}
-              hoverScale={scaleArray(4.5 * 1.1)}
-              initialPosition={[-4.5, -2.8, 0]}
+              staticScale={scaleArray(3)}
+              hoverScale={scaleArray(3.5 * 1.1)}
+              initialPosition={[-4, -2.8, 0.5]}
             />
 
             <DrapePlant
