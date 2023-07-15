@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import { getCurrentWeather, getFiveDayForecast } from "./ApiByCityName";
 import { BackgroundEnv } from "./components/BackgroundEnv";
-import { NextDayForecast } from "./components/NextDayForecast";
 import { Loading } from "./components/Loading";
 import React from "react";
 import { CurrentWeatherData, ForecastWeatherData } from "./Api";
@@ -83,7 +82,10 @@ export function App() {
     <div className="flex">
       <div className="w-full h-full flex justify-center items-center fixed z-0">
         {loading && <Loading loadingText="loading" />}
-        <BackgroundEnv currentWeather={currentWeather} />
+        <BackgroundEnv
+          currentWeather={currentWeather}
+          forecastWeather={forecastWeather}
+        />
       </div>
 
       {errorMessage && (
@@ -117,35 +119,9 @@ export function App() {
 
           <div id="search-result" className="flex">
             <h1 className="mr-5">{currentWeather?.name}</h1>
-            <h1 className="mr-5">{currentWeather?.temp}</h1>
             <h1 className="mr-5">{currentWeather?.country}</h1>
             <h1 className="mr-5">{currentWeather?.date}</h1>
           </div>
-        </section>
-
-        <section
-          id="left-panel"
-          className="h-full w-10 fixed l-0 py-28 flex flex-col items-center justify-between"
-        >
-          <div className="w-32 -rotate-90 flex justify-center">
-            <h1>Min: {currentWeather?.tempMin}&deg;</h1>
-          </div>
-
-          <div className="w-32 -rotate-90 flex justify-center">
-            <h1>Max: {currentWeather?.tempMax}&deg;</h1>
-          </div>
-
-          <div className="w-36 -rotate-90 flex justify-center">
-            <h1>Humidity: {currentWeather?.humidity}</h1>
-          </div>
-
-          <div className="w-48 -rotate-90 flex justify-center">
-            <h1>Wind Speed: {currentWeather?.windSpeed}</h1>
-          </div>
-        </section>
-
-        <section id="right-panel" className="w-full h-10 pl-10 fixed bottom-0">
-          <NextDayForecast forecastWeather={forecastWeather} />
         </section>
       </main>
     </div>

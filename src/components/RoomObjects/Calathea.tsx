@@ -78,13 +78,7 @@ export function Calathea(props: any) {
   });
 
   return (
-    <animated.group
-      {...props}
-      {...spring}
-      {...bind()}
-      dispose={null}
-      position={position1}
-    >
+    <animated.group {...props} {...spring} {...bind()} dispose={null}>
       <mesh
         castShadow
         receiveShadow

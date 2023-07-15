@@ -124,8 +124,6 @@ export const getCurrentWeather = async (
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyOne}&units=metric`
   );
 
-  console.log(response.data);
-
   const currentWeather: CurrentWeatherData = {
     name: response.data.name,
     date: convertToDate(response.data.dt),
