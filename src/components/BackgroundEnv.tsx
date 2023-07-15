@@ -5,7 +5,6 @@ import { ReactNode, Suspense, useRef, useState } from "react";
 import { CurrentWeatherData, ForecastWeatherData } from "../Api";
 import { DrapePlant } from "./RoomObjects/DrapePlant";
 import { Willow } from "./RoomObjects/Willow";
-import { Calathea } from "./RoomObjects/Calathea";
 import { PaperPotFlower } from "./RoomObjects/PaperPotFlower";
 import { GluedPoster } from "./RoomObjects/GluedPosterv2";
 import { PosterForecast } from "./RoomObjects/PosterForecast";
@@ -14,13 +13,13 @@ const scaleArray = (scale: number) => [scale, scale, scale];
 
 const loaderStyles = {
   container: {
-    backgroundColor: "red",
+    backgroundColor: "black",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   inner: {
-    backgroundColor: "red",
+    backgroundColor: "white",
     borderRadius: "10%",
   },
   bar: {
@@ -28,8 +27,8 @@ const loaderStyles = {
     height: "50px",
   },
   data: {
-    color: "black",
-    fontSize: "30px",
+    color: "white",
+    fontSize: "20px",
   },
 };
 
@@ -106,29 +105,23 @@ export function BackgroundEnv(props: Props) {
         {/* <OrbitControls enableZoom={true} /> */}
         <Suspense fallback={null}>
           <Rig>
-            {/* <Room scale={2} position={[-0.5, 0.2, -0.4]} /> */}
             <RoomWithIvy scale={2} position={[-0.5, 0.2, -0.4]} />
             <Willow
               staticScale={scaleArray(4)}
               hoverScale={scaleArray(4.5 * 1.1)}
-              initialPosition={[-2, -4, 0]}
+              initialPosition={[2.5, -3.5, 0]}
             />
 
             <PaperPotFlower
               staticScale={scaleArray(4)}
               hoverScale={scaleArray(4.5 * 1.1)}
-              initialPosition={[-3, -4, 0]}
+              initialPosition={[-4.5, -2.8, 0]}
             />
 
             <DrapePlant
               staticScale={scaleArray(3)}
               hoverScale={scaleArray(3 * 1.1)}
-              initialPosition={[1, 4, 0]}
-            />
-            <Calathea
-              staticScale={scaleArray(3)}
-              hoverScale={scaleArray(3 * 1.1)}
-              initialPosition={[1, -4, 0]}
+              initialPosition={[1, 3.6, 0]}
             />
 
             <GluedPoster
