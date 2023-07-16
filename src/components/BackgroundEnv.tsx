@@ -47,15 +47,15 @@ function getWeatherHDR(condition?: string) {
     currentHour <= 19 &&
     (condition === "Clear" || condition === "Clouds")
   ) {
-    return "./public/HDR/sunset_land.hdr";
+    return "/HDR/sunset_land.hdr";
   }
 
   if (currentHour > 19 || currentHour < 6) {
-    return "./public/HDR/night_land.hdr";
+    return "/HDR/night_land.hdr";
   }
 
   if (currentHour > 6 && condition === "Clear") {
-    return "./public/HDR/clear.hdr";
+    return "/HDR/clear.hdr";
   }
 
   if (
@@ -65,13 +65,13 @@ function getWeatherHDR(condition?: string) {
       condition === "Drizzle" ||
       condition === "Thunderstorm")
   ) {
-    return "./public/HDR/gloomy.hdr";
+    return "/HDR/gloomy.hdr";
   }
 
   if (currentHour > 6 && condition === "Snow") {
-    return "./public/HDR/snow.hdr";
+    return "/HDR/snow.hdr";
   } else {
-    return "./public/HDR/default.hdr";
+    return "/HDR/default.hdr";
   }
 }
 
