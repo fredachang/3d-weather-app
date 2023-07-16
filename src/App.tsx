@@ -81,8 +81,8 @@ export function App() {
   return (
     <div className="flex">
       <div className="w-full h-full flex justify-center items-center fixed z-0">
-        {loading && <Loading loadingText="loading" />}
         <BackgroundEnv
+          loading={loading}
           currentWeather={currentWeather}
           forecastWeather={forecastWeather}
         />

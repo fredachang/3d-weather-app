@@ -10,6 +10,8 @@ import { GluedPoster } from "./RoomObjects/GluedPosterv2";
 import { PosterForecast } from "./RoomObjects/PosterForecast";
 import { RoomWithIvy } from "./RoomObjects/RoomWithIvy";
 import { FloatingWeatherBalloon } from "./RoomObjects/Weather_balloon";
+import { LilyOnStand } from "./RoomObjects/LilyOnStand";
+import { TV } from "./RoomObjects/PhillipsTV";
 const scaleArray = (scale: number) => [scale, scale, scale];
 
 const loaderStyles = {
@@ -100,6 +102,7 @@ function Rig({ children }: { children: ReactNode }) {
 interface Props {
   currentWeather: CurrentWeatherData | null;
   forecastWeather: ForecastWeatherData | null;
+  loading: boolean;
 }
 
 const lightColours = {
@@ -108,7 +111,7 @@ const lightColours = {
 };
 
 export function BackgroundEnv(props: Props) {
-  const { currentWeather, forecastWeather } = props;
+  const { currentWeather, forecastWeather, loading } = props;
   const [showForecast, setShowForecast] = useState<boolean>(false);
 
   const handleShowForecast = () => {
@@ -137,22 +140,33 @@ export function BackgroundEnv(props: Props) {
         {/* <OrbitControls enableZoom={true} /> */}
         <Suspense fallback={null}>
           <Rig>
+            <TV
+              scale={1.6}
+              position={[5, -3.5, 0.4]}
+              rotation={[0, Math.PI / -1.2, 0]}
+              loading={loading}
+            />
+            <LilyOnStand
+              scale={3.5}
+              position={[-5, -1.8, 0.8]}
+              rotation={[0, Math.PI, 0]}
+            />
             <RoomWithIvy scale={2} position={[-0.5, 0.2, -0.4]} />
             <Willow
               staticScale={scaleArray(4)}
-              hoverScale={scaleArray(4.5 * 1.1)}
+              hoverScale={scaleArray(4.5 * 1.05)}
               initialPosition={[2.5, -3.5, 0]}
             />
 
             <PaperPotFlower
               staticScale={scaleArray(3)}
-              hoverScale={scaleArray(3.5 * 1.1)}
+              hoverScale={scaleArray(3.5 * 1.05)}
               initialPosition={[-4, -2.8, 0.5]}
             />
 
             <DrapePlant
               staticScale={scaleArray(3)}
-              hoverScale={scaleArray(3 * 1.1)}
+              hoverScale={scaleArray(3 * 1.05)}
               initialPosition={[1, 3.6, 0]}
             />
 
@@ -160,14 +174,14 @@ export function BackgroundEnv(props: Props) {
               handleShowForecast={handleShowForecast}
               currentWeather={currentWeather}
               staticScale={scaleArray(2)}
-              hoverScale={scaleArray(2 * 1.1)}
+              hoverScale={scaleArray(2 * 1.05)}
               initialPosition={[-4, 1, 0]}
             />
             {showForecast && (
               <PosterForecast
                 forecastWeather={forecastWeather}
                 staticScale={scaleArray(2)}
-                hoverScale={scaleArray(2 * 1.1)}
+                hoverScale={scaleArray(2 * 1.05)}
                 initialPosition={[4.5, 1, 0]}
               />
             )}
