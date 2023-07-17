@@ -50,6 +50,15 @@ declare module "@react-three/fiber" {
 
 const font = new FontLoader().parse(jgs7);
 const fontColour = new THREE.Color("#bef264");
+const emissiveMaterial = new THREE.MeshStandardMaterial({
+  color: new THREE.Color("#50e2d9"),
+  emissive: new THREE.Color("#404454"),
+  emissiveIntensity: 3,
+  roughness: 0.3,
+  transparent: true,
+  opacity: 0.2,
+  metalness: 0.8,
+});
 
 export function TV(props: any) {
   const { nodes, materials } = useGLTF(
@@ -115,7 +124,7 @@ export function TV(props: any) {
             castShadow
             receiveShadow
             geometry={nodes.Circle015_1.geometry}
-            material={materials.screen}
+            material={loading ? emissiveMaterial : materials.screen}
           />
         </group>
         <mesh
