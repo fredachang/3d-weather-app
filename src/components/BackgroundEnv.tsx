@@ -143,7 +143,6 @@ export function BackgroundEnv(props: Props) {
             <TV
               scale={1.6}
               position={[5, -3.5, 0.4]}
-              rotation={[0, Math.PI / -1.2, 0]}
               loading={loading}
             />
             <LilyOnStand
