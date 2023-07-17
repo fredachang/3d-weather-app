@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import { getCurrentWeather, getFiveDayForecast } from "./ApiByCityName";
 import { BackgroundEnv } from "./components/BackgroundEnv";
-import { Loading } from "./components/Loading";
 import React from "react";
 import { CurrentWeatherData, ForecastWeatherData } from "./Api";
 import { ErrorMessage } from "./components/ErrorMessage";
