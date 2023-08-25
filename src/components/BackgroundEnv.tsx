@@ -22,16 +22,17 @@ const loaderStyles = {
     alignItems: "center",
   },
   inner: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: "10%",
   },
   bar: {
-    backgroundColor: "black",
-    height: "50px",
+    backgroundColor: "#d9f99d",
+    height: "10px",
   },
   data: {
-    color: "white",
-    fontSize: "20px",
+    color: "#d9f99d",
+    fontSize: "24px",
+    fontFamily: "Pressura-Regular",
   },
 };
 
@@ -140,11 +141,7 @@ export function BackgroundEnv(props: Props) {
         {/* <OrbitControls enableZoom={true} /> */}
         <Suspense fallback={null}>
           <Rig>
-            <TV
-              scale={1.6}
-              position={[5, -3.5, 0.4]}
-              loading={loading}
-            />
+            <TV scale={1.6} position={[5, -3.5, 0.4]} loading={loading} />
             <LilyOnStand
               scale={3.5}
               position={[-5, -1.8, 0.8]}

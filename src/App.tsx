@@ -39,39 +39,12 @@ export function App() {
       }
       setTimeout(() => {
         setErrorMessage(null);
-      }, 5000);
+      }, 6000);
     } finally {
       setLoading(false);
       setCity("");
     }
   };
-
-  //old Lat and Lon call
-
-  // const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     setLoading(true);
-  //     setError(null);
-
-  //     const coordinates = await getCoordinates(city);
-  //     const currentWeather = await getCurrentWeather(
-  //       coordinates.lat,
-  //       coordinates.lon
-  //     );
-
-  //     const forecastWeather = await getFiveDayForecast(
-  //       coordinates.lat,
-  //       coordinates.lon
-  //     );
-  //     setCurrentWeather(currentWeather);
-  //     setForecastWeather(forecastWeather);
-  //   } finally {
-  //     setLoading(false);
-  //     setCity("");
-  //   }
-  // };
 
   const handleCloseError = () => {
     setErrorMessage(null);
@@ -79,7 +52,7 @@ export function App() {
 
   return (
     <div className="flex">
-      <div className="w-full h-full flex justify-center items-center fixed z-0">
+      <div className="w-full h-full flex justify-center items-center fixed">
         <BackgroundEnv
           loading={loading}
           currentWeather={currentWeather}
@@ -96,30 +69,25 @@ export function App() {
         </div>
       )}
 
-      <main className="w-full z-10">
-        <section
-          id="top-section"
-          className="w-full h-10 px-10 pt-2 fixed flex justify-between items-center"
-        >
-          <h1 className="mr-5 font-bold text-4xl">Weather App</h1>
-          <form>
-            <input
-              onChange={handleChange}
-              type="text"
-              value={city}
-              placeholder="Enter City"
-              className="bg-transparent focus:outline-none font-regular text-2xl border-b border-black border-b-2"
-            />
-            <button
-              onClick={handleClick}
-              disabled={loading}
-              className="font-regular text-2xl ml-2"
-            >
-              {loading ? "Loading..." : "Search"}
-            </button>
-          </form>
-        </section>
-      </main>
+      <section className="w-full h-10 px-10 pt-2 fixed flex justify-between items-center">
+        <h1 className="mr-5 font-bold text-4xl">Weather App</h1>
+        <form>
+          <input
+            onChange={handleChange}
+            type="text"
+            value={city}
+            placeholder="Enter City"
+            className="bg-transparent text-black focus:outline-none font-regular text-2xl border-b border-black border-b-2"
+          />
+          <button
+            onClick={handleClick}
+            disabled={loading}
+            className="font-regular text-2xl ml-2"
+          >
+            {loading ? "Loading..." : "Search"}
+          </button>
+        </form>
+      </section>
     </div>
   );
 }

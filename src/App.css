@@ -15,7 +15,7 @@ html {
   margin: 0;
 }
 
-::placeholder {
-  color: white;
+input::placeholder {
+  color: black;
   opacity: 0.9;
 }
