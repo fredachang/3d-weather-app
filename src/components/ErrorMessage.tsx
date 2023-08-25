@@ -7,7 +7,7 @@ export function ErrorMessage(props: Props) {
 
   return (
     <div className="absolute flex justify-center items-center w-100 h-20 z-20">
-      <p className="text-3xl text-lime-300">{errorText}</p>
+      <p className="text-2xl text-lime-300">{errorText}</p>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { GLTF } from "three-stdlib";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { Object3DNode, extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import jgs7 from "../../assets/jgs7_Regular.json";
+import GTPressura from "../../assets/GTPressura.json";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -48,7 +48,7 @@ declare module "@react-three/fiber" {
   }
 }
 
-const font = new FontLoader().parse(jgs7);
+const font = new FontLoader().parse(GTPressura);
 const fontColour = new THREE.Color("#bef264");
 const emissiveMaterial = new THREE.MeshStandardMaterial({
   color: new THREE.Color("#50e2d9"),
@@ -112,11 +112,11 @@ export function TV(props: any) {
           />
 
           <mesh
-            position={[0.95, 0, -0.1]}
+            position={[0.9, 0, -0.1]}
             rotation={[-Math.PI / 2, Math.PI / 2, 0]}
           >
             <textGeometry
-              args={[loadingText, { font, size: 0.07, height: 0 }]}
+              args={[loadingText, { font, size: 0.06, height: 0 }]}
             />
             <meshBasicMaterial attach="material" color={fontColour} />
           </mesh>

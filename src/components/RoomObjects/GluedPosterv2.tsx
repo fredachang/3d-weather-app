@@ -14,7 +14,7 @@ import { useLocalStorage } from "react-use";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import jgs7 from "../../assets/jgs7_Regular.json";
+import GTPressuraMonoRegular from "../../assets/GTPressura.json";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -101,7 +101,7 @@ export function GluedPoster(props: any) {
       set({ scale: hovering ? hoverScale : staticScale }),
   });
 
-  const font = new FontLoader().parse(jgs7);
+  const font = new FontLoader().parse(GTPressuraMonoRegular);
 
   const cityName = currentWeather?.name;
 
@@ -110,14 +110,12 @@ export function GluedPoster(props: any) {
   const minTemp = currentWeather?.tempMin;
   const maxTemp = currentWeather?.tempMax;
 
-  const tempString = currentTemp ? `Now: ${currentTemp}` : "";
-  const minTempString = currentTemp ? `Min: ${minTemp}` : "";
-  const maxTempString = currentTemp ? `Max: ${maxTemp}` : "";
-  const forecastString = currentTemp
-    ? `Check forecast ${String.fromCharCode(8594)}`
-    : "";
+  const tempString = currentTemp ? `Now ${currentTemp}` : "";
+  const minTempString = currentTemp ? `Min ${minTemp}` : "";
+  const maxTempString = currentTemp ? `Max ${maxTemp}` : "";
+  const forecastString = currentTemp ? `Check forecast` : "";
 
-  const degreeString = currentTemp ? "\u00B0" : "";
+  const fontSize = 0.06;
 
   return (
     <animated.group
@@ -129,61 +127,50 @@ export function GluedPoster(props: any) {
     >
       <mesh position={[-0.2, 0.55, 0.2]}>
         <textGeometry
-          args={["Weather Report", { font, size: 0.07, height: 0 }]}
+          args={["Weather Report", { font, size: fontSize, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <mesh position={[-0.2, 0.4, 0.2]}>
         <textGeometry
-          args={[cityName || "", { font, size: 0.07, height: 0 }]}
+          args={[cityName || "", { font, size: fontSize, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <mesh position={[-0.2, 0.3, 0.2]}>
         <textGeometry
-          args={[currentCondition || "", { font, size: 0.07, height: 0 }]}
+          args={[currentCondition || "", { font, size: fontSize, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <mesh position={[-0.2, 0.15, 0.2]}>
         <textGeometry
-          args={[tempString || "", { font, size: 0.07, height: 0 }]}
+          args={[tempString || "", { font, size: fontSize, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
-      <mesh position={[0.25, 0.05, 0.2]}>
-        <textGeometry args={[degreeString, { font, size: 0.2, height: 0 }]} />
-        <meshBasicMaterial attach="material" color={fontColour} />
-      </mesh>
-
       <mesh position={[-0.2, 0.05, 0.2]}>
-        <textGeometry args={[minTempString, { font, size: 0.07, height: 0 }]} />
-        <meshBasicMaterial attach="material" color={fontColour} />
-      </mesh>
-
-      <mesh position={[0.25, -0.05, 0.2]}>
-        <textGeometry args={[degreeString, { font, size: 0.2, height: 0 }]} />
+        <textGeometry
+          args={[minTempString, { font, size: fontSize, height: 0 }]}
+        />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <mesh position={[-0.2, -0.05, 0.2]}>
-        <textGeometry args={[maxTempString, { font, size: 0.07, height: 0 }]} />
-        <meshBasicMaterial attach="material" color={fontColour} />
-      </mesh>
-
-      <mesh position={[0.25, -0.15, 0.2]}>
-        <textGeometry args={[degreeString, { font, size: 0.2, height: 0 }]} />
+        <textGeometry
+          args={[maxTempString, { font, size: fontSize, height: 0 }]}
+        />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <group onClick={handleShowForecast}>
         <mesh position={[-0.2, -0.3, 0.2]}>
           <textGeometry
-            args={[forecastString, { font, size: 0.05, height: 0 }]}
+            args={[forecastString, { font, size: fontSize, height: 0 }]}
           />
           <meshBasicMaterial attach="material" color={fontColour} />
         </mesh>

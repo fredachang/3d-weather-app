@@ -14,7 +14,7 @@ import { useLocalStorage } from "react-use";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import jgs7 from "../../assets/jgs7_Regular.json";
+import GTPressuraMonoRegular from "../../assets/GTPressura.json";
 import { ForecastByDate, TempEveryThreeHours } from "../../Api";
 
 type GLTFResult = GLTF & {
@@ -87,7 +87,7 @@ export function PosterForecast(props: any) {
       set({ scale: hovering ? hoverScale : staticScale }),
   });
 
-  const font = new FontLoader().parse(jgs7);
+  const font = new FontLoader().parse(GTPressuraMonoRegular);
 
   const calculateAverageTemp = (data: TempEveryThreeHours[]) => {
     const sumTemp = data.reduce((acc, curr) => acc + curr.temp, 0);
@@ -101,6 +101,9 @@ export function PosterForecast(props: any) {
     temp: calculateAverageTemp(day.weather),
   }));
 
+  const fontSize = 0.06;
+  const fontSizeSml = 0.05;
+
   return (
     <animated.group
       {...props}
@@ -111,14 +114,17 @@ export function PosterForecast(props: any) {
     >
       <mesh position={[-0.55, 0.55, 0.2]}>
         <textGeometry
-          args={["Forecast Report", { font, size: 0.07, height: 0 }]}
+          args={["Forecast Report", { font, size: fontSize, height: 0 }]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
 
       <mesh position={[-0.55, 0.25, 0.2]}>
         <textGeometry
-          args={[dailyForecast[1].date || "", { font, size: 0.05, height: 0 }]}
+          args={[
+            dailyForecast[1].date || "",
+            { font, size: fontSizeSml, height: 0 },
+          ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
@@ -127,7 +133,7 @@ export function PosterForecast(props: any) {
         <textGeometry
           args={[
             `${dailyForecast[1].temp}` || "",
-            { font, size: 0.05, height: 0 },
+            { font, size: fontSizeSml, height: 0 },
           ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
@@ -135,7 +141,10 @@ export function PosterForecast(props: any) {
 
       <mesh position={[-0.55, 0.15, 0.2]}>
         <textGeometry
-          args={[dailyForecast[2].date || "", { font, size: 0.05, height: 0 }]}
+          args={[
+            dailyForecast[2].date || "",
+            { font, size: fontSizeSml, height: 0 },
+          ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
@@ -161,7 +170,7 @@ export function PosterForecast(props: any) {
         <textGeometry
           args={[
             `${dailyForecast[3].temp}` || "",
-            { font, size: 0.05, height: 0 },
+            { font, size: fontSizeSml, height: 0 },
           ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
@@ -169,7 +178,10 @@ export function PosterForecast(props: any) {
 
       <mesh position={[-0.55, -0.05, 0.2]}>
         <textGeometry
-          args={[dailyForecast[4].date || "", { font, size: 0.05, height: 0 }]}
+          args={[
+            dailyForecast[4].date || "",
+            { font, size: fontSizeSml, height: 0 },
+          ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
@@ -186,7 +198,10 @@ export function PosterForecast(props: any) {
 
       <mesh position={[-0.55, -0.15, 0.2]}>
         <textGeometry
-          args={[dailyForecast[5].date || "", { font, size: 0.05, height: 0 }]}
+          args={[
+            dailyForecast[5].date || "",
+            { font, size: fontSizeSml, height: 0 },
+          ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />
       </mesh>
@@ -195,7 +210,7 @@ export function PosterForecast(props: any) {
         <textGeometry
           args={[
             `${dailyForecast[5].temp}` || "",
-            { font, size: 0.05, height: 0 },
+            { font, size: fontSizeSml, height: 0 },
           ]}
         />
         <meshBasicMaterial attach="material" color={fontColour} />

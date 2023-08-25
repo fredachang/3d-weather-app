@@ -89,7 +89,7 @@ export function App() {
 
       {errorMessage && (
         <div
-          className="flex w-full h-full absolute justify-center items-center"
+          className="flex font-regular w-full h-full absolute justify-center items-center"
           onClick={handleCloseError}
         >
           <ErrorMessage errorText={errorMessage} />
@@ -99,28 +99,25 @@ export function App() {
       <main className="w-full z-10">
         <section
           id="top-section"
-          className="w-full h-10 pl-20 fixed flex justify-between items-center"
+          className="w-full h-10 px-10 pt-2 fixed flex justify-between items-center"
         >
-          <div className="flex">
-            <h1 className="mr-5">Weather App</h1>
-            <form>
-              <input
-                onChange={handleChange}
-                type="text"
-                value={city}
-                placeholder="Enter City"
-              />
-              <button onClick={handleClick} disabled={loading}>
-                {loading ? "Loading..." : "Search"}
-              </button>
-            </form>
-          </div>
-
-          <div id="search-result" className="flex">
-            <h1 className="mr-5">{currentWeather?.name}</h1>
-            <h1 className="mr-5">{currentWeather?.country}</h1>
-            <h1 className="mr-5">{currentWeather?.date}</h1>
-          </div>
+          <h1 className="mr-5 font-bold text-4xl">Weather App</h1>
+          <form>
+            <input
+              onChange={handleChange}
+              type="text"
+              value={city}
+              placeholder="Enter City"
+              className="bg-transparent focus:outline-none font-regular text-2xl border-b border-black border-b-2"
+            />
+            <button
+              onClick={handleClick}
+              disabled={loading}
+              className="font-regular text-2xl ml-2"
+            >
+              {loading ? "Loading..." : "Search"}
+            </button>
+          </form>
         </section>
       </main>
     </div>
