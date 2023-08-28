@@ -4,7 +4,8 @@ import { getCurrentWeather, getFiveDayForecast } from "./ApiByCityName";
 import { BackgroundEnv } from "./components/BackgroundEnv";
 import React from "react";
 import { CurrentWeatherData, ForecastWeatherData } from "./Api";
-import { ErrorMessage } from "./components/ErrorMessage";
+import { Message } from "./components/ErrorMessage";
+import { useDetectScreenWidth } from "./hooks/useDetectScreen";
 
 export function App() {
   const [city, setCity] = useState<string>("");
@@ -14,6 +15,10 @@ export function App() {
     useState<ForecastWeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { isPortrait } = useDetectScreenWidth();
+
+  console.log(isPortrait);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value);
@@ -65,26 +70,35 @@ export function App() {
           className="flex font-regular w-full h-full absolute justify-center items-center"
           onClick={handleCloseError}
         >
-          <ErrorMessage errorText={errorMessage} />
+          <Message text={errorMessage} />
         </div>
       )}
 
-      <section className="w-full h-10 px-10 pt-2 fixed flex justify-between items-center">
-        <h1 className="mr-5 font-bold text-4xl">Weather App</h1>
+      {isPortrait && (
+        <div
+          className="flex font-regular w-full h-full absolute justify-center items-center"
+          onClick={handleCloseError}
+        >
+          <Message text="Turn Screen Around" />
+        </div>
+      )}
+
+      <section className="w-full h-10 px-1 md:px-10 pt-0 md:pt-2 fixed flex justify-between items-center">
+        <h1 className="md:mr-5 font-bold text-lg md:text-4xl">Weather App</h1>
         <form>
           <input
             onChange={handleChange}
             type="text"
             value={city}
             placeholder="Enter City"
-            className="bg-transparent text-black focus:outline-none font-regular text-2xl border-b border-black border-b-2"
+            className="bg-transparent text-black focus:outline-none font-regular text-base md:text-2xl border-b border-black border-b-2"
           />
           <button
             onClick={handleClick}
             disabled={loading}
-            className="font-regular text-2xl ml-2"
+            className="font-regular text-base md:text-2xl ml-2"
           >
-            {loading ? "Loading..." : "Search"}
+            {loading ? "Loading..." : "Go"}
           </button>
         </form>
       </section>
