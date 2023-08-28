@@ -12,29 +12,8 @@ import { RoomWithIvy } from "./RoomObjects/RoomWithIvy";
 import { FloatingWeatherBalloon } from "./RoomObjects/Weather_balloon";
 import { LilyOnStand } from "./RoomObjects/LilyOnStand";
 import { TV } from "./RoomObjects/PhillipsTV";
+import { useDetectScreenWidth } from "../hooks/useDetectScreen";
 const scaleArray = (scale: number) => [scale, scale, scale];
-
-const loaderStyles = {
-  container: {
-    backgroundColor: "black",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inner: {
-    backgroundColor: "black",
-    borderRadius: "10%",
-  },
-  bar: {
-    backgroundColor: "#d9f99d",
-    height: "10px",
-  },
-  data: {
-    color: "#d9f99d",
-    fontSize: "24px",
-    fontFamily: "Pressura-Regular",
-  },
-};
 
 const getCurrentHour = () => {
   const date = new Date();
@@ -114,6 +93,30 @@ const lightColours = {
 export function BackgroundEnv(props: Props) {
   const { currentWeather, forecastWeather, loading } = props;
   const [showForecast, setShowForecast] = useState<boolean>(false);
+
+  const { isMobile } = useDetectScreenWidth();
+
+  const loaderStyles = {
+    container: {
+      backgroundColor: "black",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    inner: {
+      backgroundColor: "black",
+      borderRadius: "10%",
+    },
+    bar: {
+      backgroundColor: "#d9f99d",
+      height: "10px",
+    },
+    data: {
+      color: "#d9f99d",
+      fontSize: isMobile ? "16px" : "24px",
+      fontFamily: "Pressura-Regular",
+    },
+  };
 
   const handleShowForecast = () => {
     setShowForecast(true);
