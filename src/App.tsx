@@ -70,7 +70,7 @@ export function App() {
           className="flex font-regular w-full h-full absolute justify-center items-center"
           onClick={handleCloseError}
         >
-          <Message text={errorMessage} />
+          <Message text={errorMessage} delay={0} duration={0.3} />
         </div>
       )}
 
@@ -79,7 +79,7 @@ export function App() {
           className="flex font-regular w-full h-full absolute justify-center items-center"
           onClick={handleCloseError}
         >
-          <Message text="Turn Screen Around" />
+          <Message text="Turn Screen Around" delay={5} duration={0.3} />
         </div>
       )}
 

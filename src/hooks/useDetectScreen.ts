@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 export const useDetectScreenWidth = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-  const [orientation, setOrientation] = useState("");
+
+  const initialOrientation =
+    window.innerWidth < window.innerHeight ? "portrait" : "landscape";
+  const [orientation, setOrientation] = useState(initialOrientation);
 
   useEffect(() => {
     const handleResize = () => {
