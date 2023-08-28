@@ -17,5 +17,5 @@ html {
 
 input::placeholder {
   color: black;
-  opacity: 0.9;
+  opacity: 1;
 }
