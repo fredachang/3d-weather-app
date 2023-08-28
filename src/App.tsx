@@ -96,7 +96,7 @@ export function App() {
           <button
             onClick={handleClick}
             disabled={loading}
-            className="font-regular text-base md:text-2xl ml-2"
+            className="w-10 h-10 md:w-16 font-regular text-base md:text-2xl ml-2.5 md:ml-2"
           >
             {loading ? "Loading..." : "Go"}
           </button>
