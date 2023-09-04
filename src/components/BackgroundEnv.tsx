@@ -123,7 +123,7 @@ export function BackgroundEnv(props: Props) {
   };
   return (
     <>
-      <Canvas>
+      <Canvas className="touch-none">
         <FloatingWeatherBalloon scale={200} position={[0, 3, -5]} />
 
         <Environment
