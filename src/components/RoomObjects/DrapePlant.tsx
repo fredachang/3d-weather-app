@@ -60,7 +60,7 @@ export function DrapePlant(props: any) {
     scale: staticScale,
     position: position1,
     rotation: [0, 0, 0],
-    config: { friction: 10 },
+    config: { friction: 13 },
   }));
 
   const bind = useGesture({
